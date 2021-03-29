@@ -1,4 +1,5 @@
 using Hangfire;
+using HangFire.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +25,9 @@ namespace HangFire.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) // servisleri eklediðimiz yer.
         {
+            // uygulamanýn herhangi bir yerinden IEmailSender görürsen, EmailSender'dan nesne örneði al.
+            services.AddScoped<IEmailSender, EmailSender>();
+
             // database connection string'imizi ekledik.
             services.AddHangfire(config =>
                 config.UseSqlServerStorage(Configuration.GetConnectionString("HangFireConnection")));

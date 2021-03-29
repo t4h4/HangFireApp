@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using HangFire.Web.BackgroundJobs;
 
 namespace HangFire.Web.Controllers
 {
@@ -32,6 +33,15 @@ namespace HangFire.Web.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult SignUp()
+        {
+            // üye kayıt işlemi bu method da gerçekleşiyor.
+            // yeni üye olan kullanıcının user ID al.
+            FireAndForgetJobs.EmailSendToUserJob("1234","sitemize hoş geldiniz.");
+
+            return View();
         }
     }
 }
