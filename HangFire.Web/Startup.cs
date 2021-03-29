@@ -1,3 +1,4 @@
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -21,13 +22,19 @@ namespace HangFire.Web
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services) // servisleri eklediðimiz yer.
         {
+            // database connection string'imizi ekledik.
+            services.AddHangfire(config =>
+                config.UseSqlServerStorage(Configuration.GetConnectionString("HangFireConnection")));
+
+            services.AddHangfireServer(); //server servisini ekledik.
+
             services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) // middleware yapýlarýmýzý eklediðimiz yer.
         {
             if (env.IsDevelopment())
             {
@@ -41,6 +48,9 @@ namespace HangFire.Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            // www.mysite.com/hangfire
+            app.UseHangfireDashboard("/hangfire"); // ayarlamalarýn gözüktüðü dashboard var onu ekledik.
 
             app.UseRouting();
 
