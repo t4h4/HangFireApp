@@ -69,6 +69,7 @@ namespace HangFire.Web.Controllers
                 }
 
                 string jobID = BackgroundJobs.DelayedJobs.AddWaterMarkJob(newFileName, "TAHA");
+                BackgroundJobs.ContinuationsJobs.WriteWatermarkStatusJob(jobID, newFileName);
             }
 
             return View();
