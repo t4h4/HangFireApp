@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "PictureSave";
+}
+
+<h1>PictureSave</h1>
+<form method="post" enctype="multipart/form-data">
+    <!-- Dosya kaydedeceğimizden dlayı multipart/form-data seçiyoruz. -->
+    <input type="file" name="picture" /> <!--name home controller içinde parametre ile aynı isimde olmak zorunda.-->
+    <input type="submit" value="resim kaydet" />
+</form>
